@@ -56,8 +56,10 @@ void setTitle(void) {
 	else {
 		for (int i = 0; i < NB_SEC; i++) {
 			charCount += sprintf_s(toWrite + charCount, BUFFER_SIZE - charCount, "%s", "VAcc");
-			//strncat_s(toWrite, BUFFER_SIZE, "VAcc", 5);
-			tokenChoice(toWrite, i);
+			if(i+1 == NB_SEC)
+				charCount += sprintf_s(toWrite + charCount, BUFFER_SIZE - charCount, "%c", '\n');
+			else
+				charCount += sprintf_s(toWrite + charCount, BUFFER_SIZE - charCount, "%c", ',');
 		}
 		
 		fwrite(&toWrite, charCount, 1, fiModel);
@@ -182,11 +184,13 @@ void writeModel(Model model) {
 		// Ajout de la partie moyenne
 		charCount = rowMaker(toWrite, model.motionType, model.averages);
 		fwrite(&toWrite, charCount, 1, fiModel);
+		printf("Ecriture de la ligne moyenne de la classe %d\n", model.motionType);
 		strncpy_s(toWrite, sizeof(char), "", 1);
 
 		// Ajout de la partie écarts type
 		charCount = rowMaker(toWrite, model.motionType, model.stds);
 		fwrite(&toWrite, charCount, 1, fiModel);
+		printf("Ecriture de la ligne ecart types de la classe %d\n", model.motionType);
 		strncpy_s(toWrite, sizeof(char), "",1);
 
 		charCount = sprintf_s(toWrite, BUFFER_SIZE, "%d,", model.motionType);
