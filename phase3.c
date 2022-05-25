@@ -8,6 +8,7 @@
 #define NB_SEC 1000
 #define PATH_NAME_MODEL "E:\\Phase1\\model.csv"
 #define PATH_NAME_TRAIN "E:\\Phase1\\trainSet.csv"
+#define PATH_NAME_TEST "E:\\Phase1\\testSet.csv"
 
 typedef struct model Model;
 struct model {
@@ -91,24 +92,24 @@ long int getData(int motionType, double datas[][NB_SEC]) {
 
 	sprintf_s(&class, BUFFER_SIZE, "%d", motionType);
 
-	FILE* fiTrain;
+	FILE* fiTest;
 
-	fopen_s(&fiTrain, PATH_NAME_TRAIN, "r");
+	fopen_s(&fiTest, PATH_NAME_TEST, "r");
 
-	if (fiTrain == NULL) printf("erreur lors de l'ouverture du fichier");
+	if (fiTest == NULL) printf("erreur lors de l'ouverture du fichier");
 	else {
-		while (!feof(fiTrain)) {
-			fread_s(&caracLu, sizeof(caracLu), sizeof(caracLu), 1, fiTrain);
+		while (!feof(fiTest)) {
+			fread_s(&caracLu, sizeof(caracLu), sizeof(caracLu), 1, fiTest);
 			if (caracLu == class) {
 				int i = 0;
 				// Avancer jusqu'au VAcc
 				while(i < 3) {
-					fread_s(&caracLu, sizeof(caracLu), sizeof(caracLu), 1, fiTrain);
+					fread_s(&caracLu, sizeof(caracLu), sizeof(caracLu), 1, fiTest);
 					if (caracLu == ',') i++;
 				}
 				// Enregistrer la ligne
 				while (caracLu != '\n') {
-					fread_s(&caracLu, sizeof(char), sizeof(char), 1, fiTrain);
+					fread_s(&caracLu, sizeof(char), sizeof(char), 1, fiTest);
 					
 					if (caracLu != ',') {
 						strncat_s(toWrite,BUFFER_SIZE, &caracLu, 1);
@@ -126,9 +127,9 @@ long int getData(int motionType, double datas[][NB_SEC]) {
 			}
 			else // Passage à la ligne suivante si le motionType ne correspond pas
 				while(caracLu != '\n')
-					fread_s(&caracLu, sizeof(caracLu), sizeof(caracLu), 1, fiTrain);
+					fread_s(&caracLu, sizeof(caracLu), sizeof(caracLu), 1, fiTest);
 		}
-		fclose(fiTrain);
+		fclose(fiTest);
 	}
 
 	return nbValues;
