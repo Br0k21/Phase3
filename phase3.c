@@ -184,13 +184,13 @@ void writeModel(Model model) {
 		// Ajout de la partie moyenne
 		charCount = rowMaker(toWrite, model.motionType, model.averages);
 		fwrite(&toWrite, charCount, 1, fiModel);
-		printf("Ecriture de la ligne moyenne de la classe %d\n", model.motionType);
+		//printf("Ecriture de la ligne moyenne de la classe %d\n", model.motionType);
 		strncpy_s(toWrite, sizeof(char), "", 1);
 
 		// Ajout de la partie écarts type
 		charCount = rowMaker(toWrite, model.motionType, model.stds);
 		fwrite(&toWrite, charCount, 1, fiModel);
-		printf("Ecriture de la ligne ecart types de la classe %d\n", model.motionType);
+		//printf("Ecriture de la ligne ecart types de la classe %d\n", model.motionType);
 		strncpy_s(toWrite, sizeof(char), "",1);
 
 		charCount = sprintf_s(toWrite, BUFFER_SIZE, "%d,", model.motionType);
