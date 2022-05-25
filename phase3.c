@@ -48,17 +48,19 @@ void tokenChoice(char toWrite[], int i) {
 void setTitle(void) { 
 	char toWrite[BUFFER_SIZE] = { "Movement," };
 	FILE* fiModel;
+	int charCount = 0;
 
 	fopen_s(&fiModel, PATH_NAME_MODEL, "w");
 
 	if (fiModel == NULL) printf("Erreur lors de l'ouverture du fichier");
 	else {
 		for (int i = 0; i < NB_SEC; i++) {
-			strncat_s(toWrite, BUFFER_SIZE, "VAcc", 5);
+			charCount += sprintf_s(toWrite + charCount, BUFFER_SIZE - charCount, "%s", "VAcc");
+			//strncat_s(toWrite, BUFFER_SIZE, "VAcc", 5);
 			tokenChoice(toWrite, i);
 		}
 		
-		fwrite(&toWrite, sizeof(toWrite), 1, fiModel);
+		fwrite(&toWrite, charCount, 1, fiModel);
 
 		fclose(fiModel);
 	}
