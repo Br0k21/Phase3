@@ -66,7 +66,7 @@ void setTitle(void) {
 int rowMaker(char toWrite[], int motionType, double values[]) {
 	char tmp;
 	int charCount;
-	charCount = sprintf(toWrite, "%d,", motionType);
+	charCount = sprintf_s(toWrite, BUFFER_SIZE,"%d,", motionType);
 
 	for (int iVAcc = 0; iVAcc < NB_SEC; iVAcc++) {
 		charCount += sprintf_s(toWrite + charCount, BUFFER_SIZE - charCount, "%f", values[iVAcc]);
