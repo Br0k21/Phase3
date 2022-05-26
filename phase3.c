@@ -92,24 +92,24 @@ long int getData(int motionType, double datas[][NB_SEC]) {
 
 	sprintf_s(&class, BUFFER_SIZE, "%d", motionType);
 
-	FILE* fiTest;
+	FILE* fiTrain;
 
-	fopen_s(&fiTest, PATH_NAME_TEST, "r");
+	fopen_s(&fiTrain, PATH_NAME_TRAIN, "r");
 
-	if (fiTest == NULL) printf("erreur lors de l'ouverture du fichier");
+	if (fiTrain == NULL) printf("erreur lors de l'ouverture du fichier");
 	else {
-		while (!feof(fiTest)) {
-			fread_s(&caracLu, sizeof(caracLu), sizeof(caracLu), 1, fiTest);
+		while (!feof(fiTrain)) {
+			fread_s(&caracLu, sizeof(caracLu), sizeof(caracLu), 1, fiTrain);
 			if (caracLu == class) {
 				int i = 0;
 				// Avancer jusqu'au VAcc
 				while(i < 3) {
-					fread_s(&caracLu, sizeof(caracLu), sizeof(caracLu), 1, fiTest);
+					fread_s(&caracLu, sizeof(caracLu), sizeof(caracLu), 1, fiTrain);
 					if (caracLu == ',') i++;
 				}
 				// Enregistrer la ligne
 				while (caracLu != '\n') {
-					fread_s(&caracLu, sizeof(char), sizeof(char), 1, fiTest);
+					fread_s(&caracLu, sizeof(char), sizeof(char), 1, fiTrain);
 					
 					if (caracLu != ',') {
 						strncat_s(toWrite,BUFFER_SIZE, &caracLu, 1);
@@ -127,9 +127,9 @@ long int getData(int motionType, double datas[][NB_SEC]) {
 			}
 			else // Passage à la ligne suivante si le motionType ne correspond pas
 				while(caracLu != '\n')
-					fread_s(&caracLu, sizeof(caracLu), sizeof(caracLu), 1, fiTest);
+					fread_s(&caracLu, sizeof(caracLu), sizeof(caracLu), 1, fiTrain);
 		}
-		fclose(fiTest);
+		fclose(fiTrain);
 	}
 
 	return nbValues;
